@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+    <div class="col-2"></div>
+    <div class="col-8">
+    {% if page == 'Register' %}
+    <br>
+        <h1>Registeration</h1>
+        <form method="POST" action="{% url 'register' %}">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="mb-3">
+                <label class="form-label">{{field.label}}</label>
+                {{field}}
+                {% for error in field.errors %}
+                <p style="color: red;">{{error}}</p>
+                {% endfor %}
+            </div>
+            
+            <br>
+            {% endfor %}
+            <input type="submit" value="Register" class="btn btn-success">
+        </form>
+        <br>
+        <p>Already have an account? <a href="{% url 'login' %}" class="btn btn-secondary">Login</a></p>
+
+    {% else %}
+    <br>
+        <h1>Login</h1>
+        <form method="POST" action="{% url 'login' %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label class="form-label">Username</label>
+                <input type="text" class="form-control" name="username">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input type="password" class="form-control" name="password">
+            </div>
+            
+            <input type="submit" value="Login" class="btn btn-success">
+        </form>
+        <br>
+        <p>Haven't an account? <a href="{% url 'register' %}" class="btn btn-secondary">Register</a></p>
+    </div>
+    </div>
+    </div>
+    {% endif %}
+{%  endblock  %}
